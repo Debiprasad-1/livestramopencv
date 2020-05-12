@@ -9,7 +9,7 @@ import io
 app = Flask(__name__)
 
 
-vc1 = cv2.VideoCapture(1)
+vc1 = cv2.VideoCapture(0)
 #print(vc1)
 
 
@@ -20,21 +20,21 @@ def index():
 
 def gen1():
     """Video streaming generator function."""
-    
+
     while True:
-       
+
        success, frame = vc1.read()  # read the camera frame
-      
+
        if not success:
            break
-         
-           
+
+
        else:
            ret, buffer = cv2.imencode('.jpg', frame)
            frame = buffer.tobytes()
            yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-           
+
 
 
 
@@ -49,6 +49,6 @@ def video_feed1():
 
 
 if __name__ == '__main__':
-    app.run( host='0.0.0.0',port=4444)
+    app.run()
+
     
-        #app.run(host='0.0.0.0', debug=True, threaded=True)    
